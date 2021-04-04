@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Pooja Sarkar - SpaceX Launch Programs</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="content/css/bootstrap.min.css" rel="stylesheet">
+    <script src="content/js/jquery.min.js"></script>
+</head>
+
+<body>
+    <header>
+        <div class="navbar navbar-dark bg-dark">
+            <div class="container">
+                <a href="#" class="navbar-brand">
+                    <strong>SpaceX Launch Programs</strong>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main role="main">
+        <div class="album py-5 bg-light">
+            <div class="container">
+                <div id="launch_data" class="row">
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="text-muted">
+        <div class="container">
+            <p class="float-right">
+                <a href="#">Back to top</a>
+            </p>
+            <p><span class="font-weight-bold">Developed by: </span><span>Pooja Sarkar</span>
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        var _ui = {
+            bind_launch_data: function (data) {
+                let html = '';
+                if (data.length > 0) {
+                    $.each(data, function (index, value) {
+                        html += '<div class="col-md-3"><div class="card mb-4 shadow-sm">';
+                        html += '<img src="' + value.links.mission_patch_small + '" class="mx-auto" width="50%" height="50%" />';
+                        html += '<div class="card-body"> <p class="card-text"> <span class="text-primary font-weight-bold">' + value.mission_name + ' #' + value.flight_number + '</span></p>';
+                        html += '<p class="card-text"><span class="font-weight-bold"> Mission Ids: </span> <span>' + ((value.mission_id.length == 0) ? "None" : value.mission_id.toString()) + '</span></p>';
+                        html += '<p class="card-text"><span class="font-weight-bold"> Launch Year: </span> <span>' + value.launch_year + '</span></p>';
+                        html += '<p class="card-text"><span class="font-weight-bold"> Successful Launch: </span> <span>' + value.launch_success + '</span></p>';
+                        html += '</div></div></div>';
+                    });
+                }
+                else {
+                    html = "<h3>No record found!</h3>"
+                }
+                $("#launch_data").html(html);
+            }
+        }
+
+        var _page = {
+            global_variables: {
+                api_url: "https://api.spacexdata.com/v3/launches?limit=100",
+            },
+            get_launch_data: function (url) {
+                $.ajax({
+                    type: 'GET',
+                    url: _page.global_variables.api_url,
+                    dataType: "json",
+                    success: function (data) {
+                        _ui.bind_launch_data(data);
+                    },
+                    error: function () {
+                        alert('An error has occurred, while fetching data from server. ');
+                    },
+                });
+            }
+        }
+        $(function () {
+            _page.get_launch_data();
+        });
+    </script>
+</body>
+
+</html>
