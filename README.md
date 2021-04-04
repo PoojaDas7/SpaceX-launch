@@ -11,7 +11,7 @@ Updating view without refreshing browser.
 
 Chaning url with refreshing browser
 
-**Requirements**
+**Tech Stack**
 
 HTML
 
